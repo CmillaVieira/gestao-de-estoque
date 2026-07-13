@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS produtos (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(120) NOT NULL,
+  codigo VARCHAR(50) NOT NULL UNIQUE,
+  categoria VARCHAR(80) NOT NULL,
+  marca VARCHAR(80),
+  descricao TEXT,
+  preco NUMERIC(10, 2) NOT NULL CHECK (preco >= 0),
+  quantidade INTEGER NOT NULL DEFAULT 0 CHECK (quantidade >= 0),
+  estoque_minimo INTEGER NOT NULL DEFAULT 5 CHECK (estoque_minimo >= 0),
+  ativo BOOLEAN NOT NULL DEFAULT TRUE,
+  criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

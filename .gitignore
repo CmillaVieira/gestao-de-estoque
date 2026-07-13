@@ -1,0 +1,25 @@
+# Dependências
+backend/node_modules
+frontend/node_modules
+
+# Variáveis de ambiente
+backend/.env
+frontend/.env
+
+# Build
+backend/dist
+frontend/dist
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode
+
+# Arquivos temporários
+*.tmp
