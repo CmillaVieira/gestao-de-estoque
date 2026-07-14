@@ -49,7 +49,6 @@ gestao-de-estoque/
 ├── backend/
 │   ├── server.js
 │   ├── package.json
-│   ├── .env
 │   └── src/
 │       ├── controllers/
 │       ├── database/
@@ -62,6 +61,12 @@ gestao-de-estoque/
 │   │   ├── services/
 │   │   └── assets/
 │   └── package.json
+│
+├── imagens/
+│   ├── dashboard.png
+│   ├── cadastro.png
+│   ├── edicao.png
+│   └── exclusao.png
 │
 ├── sql/
 │   └── init.sql
@@ -149,43 +154,27 @@ http://localhost:5173
 
 # Imagens do Projeto
 
-## Dashboard
-
-
-
+git add README.md## Dashboard
 
 ![Dashboard](./imagens/dashboard.png)
-
 
 ---
 
 ## Cadastro de Produto
 
-
-
-
 ![Cadastro](./imagens/cadastro.png)
-
 
 ---
 
 ## Edição de Produto
 
-
-
-
 ![Edicao](./imagens/edicao.png)
-
 
 ---
 
 ## Exclusão de Produto
 
-
-
-
 ![Exclusao](./imagens/exclusao.png)
-
 
 ---
 
