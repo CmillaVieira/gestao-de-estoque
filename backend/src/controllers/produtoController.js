@@ -32,50 +32,71 @@ const cadastrarProduto = async (req, res) => {
       ativo,
     } = req.body;
 
-    if (!nome || !codigo || !categoria || preco === undefined) {
+    if (!nome?.trim() || !codigo?.trim() || !categoria?.trim()) {
       return res.status(400).json({
-        mensagem:
-          "Nome, código, categoria e preço são obrigatórios.",
+        mensagem: "Nome, código e categoria são obrigatórios.",
+      });
+    }
+
+    if (preco === undefined || preco === null || preco === "") {
+      return res.status(400).json({
+        mensagem: "O preço é obrigatório.",
       });
     }
 
     const resultado = await pool.query(
-      `INSERT INTO produtos
-      (
-        nome,
-        codigo,
-        categoria,
-        marca,
-        descricao,
-        preco,
-        quantidade,
-        estoque_minimo,
-        ativo
-      )
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-      RETURNING *`,
+      `
+        INSERT INTO produtos (
+          nome,
+          codigo,
+          categoria,
+          marca,
+          descricao,
+          preco,
+          quantidade,
+          estoque_minimo,
+          ativo
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        RETURNING *
+      `,
       [
-        nome,
-        codigo,
-        categoria,
-        marca || null,
-        descricao || null,
-        preco,
-        quantidade || 0,
-        estoque_minimo || 5,
+        nome.trim(),
+        codigo.trim().toUpperCase(),
+        categoria.trim(),
+        marca?.trim() || null,
+        descricao?.trim() || null,
+        Number(preco),
+        Number(quantidade || 0),
+        Number(estoque_minimo || 5),
         ativo ?? true,
       ]
     );
 
-    res.status(201).json({
+    return res.status(201).json({
       mensagem: "Produto cadastrado com sucesso!",
       produto: resultado.rows[0],
     });
   } catch (erro) {
     console.error("Erro ao cadastrar produto:", erro);
 
-    res.status(500).json({
-      mensagem: "Erro ao cadastrar produto.",
+    // Código repetido: restrição UNIQUE do PostgreSQL
+    if (erro.code === "23505") {
+      return res.status(409).json({
+        mensagem: "Já existe um produto com esse código.",
+      });
+    }
+
+    // Preço, quantidade ou estoque mínimo negativos
+    if (erro.code === "23514") {
+      return res.status(400).json({
+        mensagem:
+          "Preço, quantidade e estoque mínimo não podem ser negativos.",
+      });
+    }
+
+    return res.status(500).json({
+      mensagem: "Não foi possível cadastrar o produto.",
     });
   }
 };
