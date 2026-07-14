@@ -241,7 +241,7 @@ function Dashboard({ temaEscuro, alternarTema }) {
           <div className="welcome-content">
             <div>
               <h2>
-                Bem-vinda ao Sistema de Gestão de Estoque 👋
+                Bem-vindo(a) ao Sistema de Gestão de Estoque 
               </h2>
 
               <p>
